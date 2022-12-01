@@ -26,3 +26,15 @@ MISSING DATA?
 * sampler_ref_number is required
 * gear is required
 * experimental_net_used is required
+
+NEED TO POPULATE (or make a substitute):
+* herring_fishdetail
+* herring_lengthfrequency - calculate this
+* herring_sample - calculate this
+
+
+CONFIRM FIELDS:
+* FL_* (fish length?)
+* FSP
+
+confirm fl frozen less than std
