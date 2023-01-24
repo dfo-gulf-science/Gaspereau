@@ -1,5 +1,7 @@
 site,zone,latitude_n,longitude_w,license_number,name
 1,lower,,,,
+1A,lower,,,,
+1B,lower,,,,
 2,lower,,,,
 4,lower,,,,
 5,lower,,,,
@@ -58,5 +60,3 @@ site,zone,latitude_n,longitude_w,license_number,name
 66,upper,,,,
 67,upper,,,,
 68,upper,,,,
-1A,lower,,,,
-1B,lower,,,,
