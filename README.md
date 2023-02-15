@@ -120,5 +120,16 @@
   JOIN herring_site ON herring_sample.site_id = herring_site.id 
   WHERE catch_id = 3 AND species ISNULL
   GROUP BY herring_sample.id
+  
+  
+  ---- check how many fish details are gaspereau -- 36397 (0 after delete_gaspereau())
+  SELECT COUNT(*) FROM herring_fishdetail 
+  WHERE SPECIES IN (158669, 158667)
+  
+  
+  ---- check how many length frequencies are gaspereau -- 11127 (0 after delete_gaspereau())
+  SELECT COUNT(*) FROM herring_lengthfrequency
+  JOIN herring_sample ON herring_sample.id = herring_lengthfrequency.sample_id
+  WHERE herring_sample.catch_id = 3
 
 ```
