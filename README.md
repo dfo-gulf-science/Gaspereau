@@ -4,15 +4,15 @@
 
 Data were visualised in context to in order to understand the data, and verify the internal consistency of the dataset. The example visualisation below shows the total length counts over time for the Alosa species (gaspereau):
 
-<img width="900" src="https://user-images.githubusercontent.com/94803263/219615457-2d84ff48-a958-44aa-ad59-c5406f1c485c.png">
+<img width="800" src="https://user-images.githubusercontent.com/94803263/219615457-2d84ff48-a958-44aa-ad59-c5406f1c485c.png">
 
 Exploratory data analysis to explore 63 features in 3 datasets before integration into dm_apps. The following is an example of an explored feature - fish length:
 
-<img width="600" src="https://user-images.githubusercontent.com/94803263/219613059-b4ff6e92-4904-49dd-b08f-1e80f666d0a5.png">
+<img width="800" src="https://user-images.githubusercontent.com/94803263/219613059-b4ff6e92-4904-49dd-b08f-1e80f666d0a5.png">
 
 Some data entry issues were encountered. Recommendations were provided for cleaning, correction, and nullifying data based on specifics. The below example shows a small portion of data in cm versus the typical measurements in mm: 
 
-<img width="600" src="https://user-images.githubusercontent.com/94803263/219614624-990014bc-eb4d-4b54-b158-c3a85fcf7784.png">
+<img width="800" src="https://user-images.githubusercontent.com/94803263/219614624-990014bc-eb4d-4b54-b158-c3a85fcf7784.png">
 
 
 ### Useful SQL Queries for Checking Import
@@ -146,5 +146,60 @@ notes:  uncomment clauses as required to check results
   SELECT COUNT(*) FROM herring_lengthfrequency
   JOIN herring_sample ON herring_sample.id = herring_lengthfrequency.sample_id
   WHERE herring_sample.catch_id = 3
+
+  ---- check results from progress report
+
+  ---- fish counts - correct for 2019
+
+  SELECT COUNT(*) FROM herring_fishdetail
+  JOIN herring_sample ON herring_fishdetail.sample_id = herring_sample.id
+  WHERE STRFTIME("%Y", sample_date) = '2019' 
+    AND catch_id = 3
+
+  SELECT COUNT(*) FROM herring_fishdetail
+  JOIN herring_sample ON herring_fishdetail.sample_id = herring_sample.id
+  WHERE lab_processing_complete 
+    AND STRFTIME("%Y", sample_date) = '2019' 
+    AND catch_id = 3
+
+  SELECT COUNT(*) FROM herring_fishdetail
+  JOIN herring_sample ON herring_fishdetail.sample_id = herring_sample.id
+  WHERE scale_1_processed_date NOTNULL 
+    AND STRFTIME("%Y", sample_date) = '2019' 
+    AND catch_id = 3
+
+  SELECT COUNT(*) FROM herring_fishdetail
+  JOIN herring_sample ON herring_fishdetail.sample_id = herring_sample.id
+  WHERE scale_2_processed_date NOTNULL 
+    AND STRFTIME("%Y", sample_date) = '2019' 
+    AND catch_id = 3
+
+  ---- sample counts - correct for 2019
+
+  SELECT COUNT(*) FROM herring_sample
+  WHERE STRFTIME("%Y", sample_date) = '2019'
+    AND catch_id = 3
+
+  SELECT COUNT(*) FROM herring_sample
+  WHERE STRFTIME("%Y", sample_date) = '2019' 
+    AND lab_processing_complete
+    AND catch_id = 3
+
+  SELECT SUM(matches) FROM (
+    SELECT MIN(scale_1_processed_date NOT NULL) AS matches FROM herring_sample
+    JOIN herring_fishdetail ON herring_fishdetail.sample_id = herring_sample.id
+    WHERE STRFTIME("%Y", sample_date) = '2019'
+      AND catch_id = 3
+    GROUP BY sample_id
+  )
+
+  SELECT SUM(matches) FROM (
+    SELECT MIN(scale_2_processed_date NOT NULL) AS matches FROM herring_sample
+    JOIN herring_fishdetail ON herring_fishdetail.sample_id = herring_sample.id
+    WHERE STRFTIME("%Y", sample_date) = '2019'
+      AND catch_id = 3
+    GROUP BY sample_id
+  )
+
 
 ```
